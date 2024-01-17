@@ -14,8 +14,6 @@ connect_db(app)
 with app.app_context():
     db.create_all()
 
-# It should be able to import the User model, and create the tables using SQLAlchemy. 
-
 # **GET */ :*** Redirect to list of users. (We’ll fix this in a later step).
 @app.route('/')
 def redirect_to_users():
@@ -25,9 +23,9 @@ def redirect_to_users():
 # **GET */users :*** Show all users. Make these links to view the detail page for the user. Have a link here to the add-user form.
 @app.route('/users')
 def list_users():
-    user = User.query.all()
-    print(user)
-    return render_template('user_list.html', user = user)
+    users = User.query.all()
+    print(users)
+    return render_template('user_list.html', users = users)
 
 @app.route('/users/new', methods=['GET', 'POST'])
 def add_new_user():
@@ -36,6 +34,9 @@ def add_new_user():
         fname = request.form.get('fname')
         lname = request.form.get('lname')
         image_url = request.form.get('image_url')
+        # set default if image is left blank 
+        if not image_url:
+            image_url = 'default.jpg'
         # add to database
         add_new_user = User(first_name=fname, last_name=lname, image_url=image_url)
         db.session.add(add_new_user)
@@ -74,3 +75,7 @@ def user_delete(user_id):
     flash('User not found', 'error')
     # always run 
     return redirect(url_for('list_users'))
+
+
+if __name__ == '__main__':
+    app.run(debug=True)

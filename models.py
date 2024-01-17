@@ -12,7 +12,7 @@ class User(db.Model):
     
     def __repr__(self):
         s = self
-        return f"<pet id={s.id}, first name={s.first_name}, last name={s.last_name}>"
+        return f"<user id={s.id}, first name={s.first_name}, last name={s.last_name}, photo:{s.image_url}>"
     
     id = db.Column(db.Integer,
                    primary_key=True,
