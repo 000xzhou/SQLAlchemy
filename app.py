@@ -8,6 +8,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://xiang:password@localhost/blogly'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
+app.secret_key = 'your_secret_key_here'
 
 connect_db(app)
 # Use app.app_context() to create an application context
@@ -49,8 +50,6 @@ def add_new_user():
 @app.route('/users/<user_id>')
 def user_detail(user_id):
     user = User.query.get_or_404(user_id)
-    print('1\n2\n3\n4\n5\n')
-    print(user)
     return render_template('user_detail_page.html', user = user)
 
 # **GET */users/[user-id]/edit :*** Show the edit page for a user. Have a cancel button that returns to the detail page for a user, and a save button that updates the user.
@@ -71,11 +70,14 @@ def user_edit(user_id):
 # **POST */users/[user-id]/delete :*** Delete the user.
 @app.route('/users/<user_id>/delete')
 def user_delete(user_id):
+    user = User.query.get(user_id)
     # if user found 
-    flash('User deleted successfully', 'success')
-    # else error 
-    flash('User not found', 'error')
-    # always run 
+    if(user):
+        db.session.delete(user)
+        db.session.commit()
+        flash('User deleted successfully', 'success')
+    else:
+        flash('User not found', 'error')
     return redirect(url_for('list_users'))
 
 

@@ -11,7 +11,13 @@
     <nav>
       <!-- Navigation links go here -->
     </nav>
-
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <ul>
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %} {% endwith %}
     <main>
       <h2>{% block content_title %}Default Content Title{% endblock %}</h2>
       <div id="content">{% block content %}{% endblock %}</div>

@@ -3,7 +3,7 @@ content_title %}User detail page{% endblock %} {% block content %}
 <img src="{{user.image_url}}" alt="user image" />
 <div>{{user.first_name}} {{user.last_name}}</div>
 <div>
-  <a href="/users/user.id/edit">Edit</a>
-  <a href="/users/user.id/delete">Delete</a>
+  <a href="/users/{{user.id}}/edit">Edit</a>
+  <a href="/users/{{user.id}}/delete">Delete</a>
 </div>
 {% endblock %}
