@@ -24,7 +24,6 @@ def redirect_to_users():
 @app.route('/users')
 def list_users():
     users = User.query.all()
-    print(users)
     return render_template('user_list.html', users = users)
 
 @app.route('/users/new', methods=['GET', 'POST'])
@@ -49,7 +48,10 @@ def add_new_user():
 # **GET */users/[user-id] :***Show information about the given user. Have a button to get to their edit page, and to delete the user.
 @app.route('/users/<user_id>')
 def user_detail(user_id):
-    return render_template('user_detail_page.html')
+    user = User.query.get_or_404(user_id)
+    print('1\n2\n3\n4\n5\n')
+    print(user)
+    return render_template('user_detail_page.html', user = user)
 
 # **GET */users/[user-id]/edit :*** Show the edit page for a user. Have a cancel button that returns to the detail page for a user, and a save button that updates the user.
 @app.route('/users/<user_id>/edit', methods=['GET', 'POST'])
