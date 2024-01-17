@@ -55,17 +55,30 @@ def user_detail(user_id):
 # **GET */users/[user-id]/edit :*** Show the edit page for a user. Have a cancel button that returns to the detail page for a user, and a save button that updates the user.
 @app.route('/users/<user_id>/edit', methods=['GET', 'POST'])
 def user_edit(user_id):
+    # check if user exist 
+    user = User.query.get_or_404(user_id)
+    
     # **POST */users/[user-id]/edit :***Process the edit form, returning the user to the ***/users*** page.
     if request.method == 'POST':
-        fname = request.form.get('fname')
-        lname = request.form.get('lname')
-        image_url = request.form.get('image_url')
-        print("post method")
-    # find user in db 
-    # if user: -if user exist
-    return render_template('user_edit_page.html')
-    # else elsesend to user not found page or redirect to userlist
-    # return refirect with flash
+        # user = User.query.get_or_404(user_id)
+        if user:
+            fname = request.form.get('fname')
+            lname = request.form.get('lname')
+            image_url = request.form.get('image_url')
+
+        # update user info 
+            user.first_name = fname
+            user.last_name = lname
+            user.image_url = image_url
+            
+            db.session.commit()
+
+            flash('User updated successfully', 'success')
+            return redirect(url_for('user_detail', user_id=user_id))
+        else:
+            flash('User not found', 'error')
+            return redirect(url_for('list_users'))
+    return render_template('user_edit.page.html', user = user)
 
 # **POST */users/[user-id]/delete :*** Delete the user.
 @app.route('/users/<user_id>/delete')
