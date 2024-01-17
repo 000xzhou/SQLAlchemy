@@ -2,13 +2,18 @@
 
 from flask import Flask, render_template, redirect, request, url_for, flash
 from models import db, connect_db, User
+from dotenv import load_dotenv
+load_dotenv()
+import os
 
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://xiang:password@localhost/blogly'
+secret_key = os.environ.get('SECRET_KEY')
+database_uri = os.environ.get('DATABASE_URL')
+
+app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
-app.secret_key = 'your_secret_key_here'
+app.secret_key = secret_key
 
 connect_db(app)
 # Use app.app_context() to create an application context
