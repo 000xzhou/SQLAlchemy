@@ -1,8 +1,8 @@
 {% extends 'base.html' %} {% block title %}user detail{% endblock %} {% block
-content_title %}Detail page for {{user.first_name}} {{user.last_name}}{%
-endblock %} {% block content %}
+content_title %}Detail page for {{user.full_name}}{% endblock %} {% block
+content %}
 <img src="{{user.image_url}}" alt="user image" />
-<div>{{user.first_name}} {{user.last_name}}</div>
+<div>{{userfull_name}}</div>
 <div>
   <a href="/users/{{user.id}}/edit">Edit</a>
   <a href="/users/{{user.id}}/delete">Delete</a>

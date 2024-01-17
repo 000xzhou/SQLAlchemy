@@ -1,6 +1,5 @@
 {% extends 'base.html' %} {% block title %}user edit{% endblock %} {% block
-content_title %}Edit user: {{user.first_name}} {{user.last_name}}{% endblock %}
-{% block content %}
+content_title %}Edit user: {{user.full_name}}{% endblock %} {% block content %}
 <form action="" method="post">
   <label for="fname">First Name</label>
   <input

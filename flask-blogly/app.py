@@ -24,7 +24,8 @@ def redirect_to_users():
 # **GET */users :*** Show all users. Make these links to view the detail page for the user. Have a link here to the add-user form.
 @app.route('/users')
 def list_users():
-    users = User.query.all()
+    # users = User.query.all()
+    users = User.query.order_by(User.last_name, User.first_name).all()
     return render_template('user_list.html', users = users)
 
 @app.route('/users/new', methods=['GET', 'POST'])
