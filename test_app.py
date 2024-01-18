@@ -27,6 +27,7 @@ class UserFlaskCase(TestCase):
     def setUp(self):
         """Add sample"""
         with self.app.app_context():
+            User.query.delete()
             # Add a sample user
             user = User(first_name="John", last_name="Doe", image_url="image_url.jpg")
             db.session.add(user)

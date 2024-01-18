@@ -27,8 +27,6 @@ class UserModelCase(TestCase):
     def test_userinfo(self):
         with self.app.app_context():
             user = User(first_name="John", last_name="Doe", image_url="somethingurl.jpg")
-            db.session.add(user)
-            db.session.commit()
             self.assertEqual(user.full_name, "John Doe")
             self.assertEqual(user.image_url, "somethingurl.jpg")
 
@@ -39,6 +37,8 @@ class UserModelCase(TestCase):
             db.session.commit()
             self.assertEqual(user.full_name, "John Doe")
             self.assertEqual(user.image_url, "default.jpg")
+            db.session.delete(user)
+            db.session.commit()
 
 if __name__ == "__main__":
     import unittest
