@@ -124,8 +124,8 @@ def new_post(user_id):
 # **GET */posts/[post-id] :*** Show a post. Show buttons to edit and delete the post.
 @app.route('/posts/<posts_id>')
 def post_details(posts_id):
-    
-    return render_template('post_detail_page.html')
+    post = Post.query.get_or_404(posts_id)
+    return render_template('post_detail_page.html', post=post)
 
 
 # **GET */posts/[post-id]/edit :*** Show form to edit a post, and to cancel (back to user page).
