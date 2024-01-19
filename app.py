@@ -84,7 +84,7 @@ def user_edit(user_id):
         else:
             flash('User not found', 'error')
             return redirect(url_for('list_users'))
-    return render_template('user_edit.page.html', user = user)
+    return render_template('user_edit_page.html', user = user)
 
 # **POST */users/[user-id]/delete :*** Delete the user.
 @app.route('/users/<user_id>/delete')
