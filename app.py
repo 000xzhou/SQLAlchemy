@@ -1,7 +1,7 @@
 """Blogly application."""
 
 from flask import Flask, render_template, redirect, request, url_for, flash
-from models import db, connect_db, User
+from models import db, connect_db, User, Post
 from dotenv import load_dotenv
 load_dotenv()
 import os
@@ -111,6 +111,13 @@ def user_delete(user_id):
 @app.route('/users/<user_id>/posts/new', methods=['GET', 'POST'])
 def new_post(user_id):
     user = User.query.get_or_404(user_id)
+    if request.method == 'POST':
+        title = request.form.get('title')
+        content = request.form.get('content')
+        add_new_post = Post(title=title, content=content, user_id=user.id)
+        db.session.add(add_new_post)
+        db.session.commit()
+        return redirect(url_for('user_detail', user_id=user_id))
     
     return render_template('new_post_form.html', user = user)
 
