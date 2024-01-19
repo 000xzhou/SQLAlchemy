@@ -117,6 +117,7 @@ def new_post(user_id):
         add_new_post = Post(title=title, content=content, user_id=user.id)
         db.session.add(add_new_post)
         db.session.commit()
+        flash('Post created successfully', 'success')
         return redirect(url_for('user_detail', user_id=user_id))
     
     return render_template('new_post_form.html', user = user)
@@ -132,7 +133,16 @@ def post_details(posts_id):
 # **POST */posts/[post-id]/edit :*** Handle editing of a post. Redirect back to the post view.
 @app.route('/posts/<posts_id>/edit', methods=['GET', 'POST'])
 def edit_post(posts_id):
-    return "edit post"
+    post = Post.query.get_or_404(posts_id)
+    if request.method == 'POST':
+        title = request.form.get('title')
+        content = request.form.get('content')
+        post.title = title
+        post.content = content
+        db.session.commit()
+        return redirect(url_for('post_details', posts_id=posts_id))
+        
+    return render_template('post_edit_page.html', post=post)
 
 # **POST */posts/[post-id]/delete :*** Delete the post.
 @app.route('/posts/<posts_id>/delete')
