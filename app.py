@@ -6,13 +6,14 @@ from dotenv import load_dotenv
 load_dotenv()
 import os
 
+
 app = Flask(__name__)
 secret_key = os.environ.get('SECRET_KEY')
 database_uri = os.environ.get('DATABASE_URL')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ECHO'] = False
+app.config['SQLALCHEMY_ECHO'] = True
 app.secret_key = secret_key
 
 connect_db(app)
@@ -20,11 +21,11 @@ connect_db(app)
 with app.app_context():
     db.create_all()
 
-# **GET */ :*** Redirect to list of users. (We’ll fix this in a later step).
+# **GET */ :*** Change the homepage to a page that shows the 5 most recent posts.
 @app.route('/')
 def homepage():
-    # Redirect to the 'users' endpoint
-    return redirect(url_for('list_users'))
+    recent_posts = Post.query.order_by(Post.created_at.desc()).limit(5).all()
+    return render_template('homepage.html', posts=recent_posts)
 
 # **GET */users :*** Show all users. Make these links to view the detail page for the user. Have a link here to the add-user form.
 @app.route('/users')
@@ -150,6 +151,9 @@ def delete_post(posts_id):
     flash('Post deleted successfully', 'success')
     return redirect(url_for('homepage'))
 
+@app.errorhandler(404)
+def not_found_error(error):
+    return render_template('404.html'), 404
 
 if __name__ == '__main__':
     app.run(debug=True)
