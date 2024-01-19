@@ -104,21 +104,25 @@ def user_delete(user_id):
 # **POST */users/[user-id]/posts/new :*** Handle add form; add post and redirect to the user detail page.
 @app.route('/users/<user_id>/posts/new', methods=['GET', 'POST'])
 def new_post(user_id):
-    return "newpost"
+    user = User.query.get_or_404(user_id)
+    
+    return render_template('new_post_form.html', user = user)
 
 # **GET */posts/[post-id] :*** Show a post. Show buttons to edit and delete the post.
-@app.route('/users/<posts_id>')
+@app.route('/posts/<posts_id>')
 def post_details(posts_id):
-    return "post"
+    
+    return render_template('post_detail_page.html')
+
 
 # **GET */posts/[post-id]/edit :*** Show form to edit a post, and to cancel (back to user page).
 # **POST */posts/[post-id]/edit :*** Handle editing of a post. Redirect back to the post view.
-@app.route('/users/<posts_id>/edit', methods=['GET', 'POST'])
+@app.route('/posts/<posts_id>/edit', methods=['GET', 'POST'])
 def edit_post(posts_id):
     return "edit post"
 
 # **POST */posts/[post-id]/delete :*** Delete the post.
-@app.route('/users/<posts_id>/delete')
+@app.route('/posts/<posts_id>/delete')
 def delete_post(posts_id):
     return "delete post"
 
