@@ -27,6 +27,8 @@ class User(db.Model):
     @property
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
+    
+    posts = db.relationship('Post', backref='user', cascade="all, delete-orphan")
 class Post(db.Model):
     __tablename__ = "posts"
     
@@ -38,7 +40,7 @@ class Post(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
-    user = db.relationship('User', backref='posts')
+    # user = db.relationship('User', backref='posts')
     
     def __repr__(self):
         s = self
