@@ -12,7 +12,7 @@ database_uri = os.environ.get('DATABASE_URL')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ECHO'] = True
+app.config['SQLALCHEMY_ECHO'] = False
 app.secret_key = secret_key
 
 connect_db(app)

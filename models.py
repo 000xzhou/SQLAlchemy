@@ -32,15 +32,14 @@ class Post(db.Model):
     id = db.Column(db.Integer,
                    primary_key=True,
                    autoincrement=True)
-    title = db.Column(db.text, nullable=False)
-    content = db.Column(db.text, nullable=False)
-    # server_default=db.func.now() sets a default value of the current timestamp when a new post is created. 
-    created_at = db.Column(db.date, server_default=db.func.now())
-    user_id = db.ForeignKey(db.Integer, db.ForeignKey('users.id'))
+    title = db.Column(db.Text, nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.Date)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
     dept = db.relationship('User', backref='posts')
     
     def __repr__(self):
         s = self
-        return f"<post id={s.id}, first name={s.first_name}, last name={s.last_name}, photo:{s.image_url}>"
+        return f"<post id={s.id}, title={s.title}, content={s.content}, created_at={s.created_at}>"
 
