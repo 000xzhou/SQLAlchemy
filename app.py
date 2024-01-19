@@ -22,7 +22,7 @@ with app.app_context():
 
 # **GET */ :*** Redirect to list of users. (We’ll fix this in a later step).
 @app.route('/')
-def redirect_to_users():
+def homepage():
     # Redirect to the 'users' endpoint
     return redirect(url_for('list_users'))
 
@@ -95,14 +95,10 @@ def user_edit(user_id):
 # **POST */users/[user-id]/delete :*** Delete the user.
 @app.route('/users/<user_id>/delete')
 def user_delete(user_id):
-    user = User.query.get(user_id)
-    # if user found 
-    if(user):
-        db.session.delete(user)
-        db.session.commit()
-        flash('User deleted successfully', 'success')
-    else:
-        flash('User not found', 'error')
+    user = User.query.get_or_404(user_id)
+    db.session.delete(user)
+    db.session.commit()
+    flash('User deleted successfully', 'success')
     return redirect(url_for('list_users'))
 
 
@@ -140,6 +136,7 @@ def edit_post(posts_id):
         post.title = title
         post.content = content
         db.session.commit()
+        flash('Post Edited Successfully', 'success')
         return redirect(url_for('post_details', posts_id=posts_id))
         
     return render_template('post_edit_page.html', post=post)
@@ -147,7 +144,11 @@ def edit_post(posts_id):
 # **POST */posts/[post-id]/delete :*** Delete the post.
 @app.route('/posts/<posts_id>/delete')
 def delete_post(posts_id):
-    return "delete post"
+    post = Post.query.get_or_404(posts_id)
+    db.session.delete(post)
+    db.session.commit()
+    flash('Post deleted successfully', 'success')
+    return redirect(url_for('homepage'))
 
 
 if __name__ == '__main__':
