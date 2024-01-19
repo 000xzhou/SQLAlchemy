@@ -2,7 +2,8 @@
 content_title %}{{post.title}}{% endblock %} {% block content %}
 
 <p>{{post.content}}</p>
-<a href="/users/{{user.id}}">back to user</a>
+<p>By {{post.user.full_name}}</p>
+<a href="/users/{{post.user_id}}">Back</a>
 <a href="/posts/<posts_id>/edit">Edit</a>
 <a href="/posts/<posts_id>/delete">Delete</a>
 {% endblock %}
