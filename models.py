@@ -37,7 +37,7 @@ class Post(db.Model):
     created_at = db.Column(db.Date)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
-    dept = db.relationship('User', backref='posts')
+    user = db.relationship('User', backref='posts')
     
     def __repr__(self):
         s = self

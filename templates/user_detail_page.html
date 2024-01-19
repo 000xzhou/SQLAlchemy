@@ -7,4 +7,14 @@ content %}
   <a href="/users/{{user.id}}/edit">Edit</a>
   <a href="/users/{{user.id}}/delete">Delete</a>
 </div>
+<div>
+  <h2>Posts<h2>
+  <ul>
+    {% for post in posts %}
+    <li>
+      <a href="/posts/{{ post.id }}">{{ post.title}}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
 {% endblock %}

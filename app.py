@@ -55,8 +55,14 @@ def add_new_user():
 # **GET */users/[user-id] :***Show information about the given user. Have a button to get to their edit page, and to delete the user.
 @app.route('/users/<user_id>')
 def user_detail(user_id):
-    user = User.query.get_or_404(user_id)
-    return render_template('user_detail_page.html', user = user)
+    # user = User.query.get_or_404(user_id)
+    user = User.query.get(user_id)
+    if user:
+        posts = user.posts  
+        return render_template('user_detail_page.html', user=user, posts=posts)
+    else:
+        flash('User not found', 'error')
+        return redirect(url_for('list_users'))
 
 # **GET */users/[user-id]/edit :*** Show the edit page for a user. Have a cancel button that returns to the detail page for a user, and a save button that updates the user.
 @app.route('/users/<user_id>/edit', methods=['GET', 'POST'])
