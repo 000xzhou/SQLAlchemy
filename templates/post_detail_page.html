@@ -3,6 +3,11 @@ content_title %}{{post.title}}{% endblock %} {% block content %}
 
 <p>{{post.content}}</p>
 <p>By {{post.user.full_name}}</p>
+<div>
+  Tags: {% for tag in tags %}
+  <span><a href="/tags/{{ tag.id }}">{{ tag.name}}</a></span>
+  {% endfor %}
+</div>
 <a href="/users/{{post.user_id}}">Back</a>
 <a href="/posts/{{post.id}}/edit">Edit</a>
 <a href="/posts/{{post.id}}/delete">Delete</a>

@@ -11,6 +11,16 @@ content_title %}Add Post for {{ user.full_name}}{% endblock %} {% block content
     id="content"
     placeholder="Enter some content"
   />
+  {% for tag in tags %}
+  <input
+    type="checkbox"
+    id="tagCheckbox_{{ tag.id }}"
+    name="tagCheckbox"
+    value="{{ tag.name }}"
+  />
+  <label for="tagCheckbox_{{ tag.id }}">{{ tag.name }}</label>
+  {% endfor %}
+
   <a href="/users/{{user.id}}">Cancel</a>
   <button type="submit">Add</button>
 </form>

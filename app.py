@@ -73,7 +73,6 @@ def user_edit(user_id):
     
     # **POST */users/[user-id]/edit :***Process the edit form, returning the user to the ***/users*** page.
     if request.method == 'POST':
-        # user = User.query.get_or_404(user_id)
         if user:
             fname = request.form.get('fname')
             lname = request.form.get('lname')
@@ -108,22 +107,32 @@ def user_delete(user_id):
 @app.route('/users/<user_id>/posts/new', methods=['GET', 'POST'])
 def new_post(user_id):
     user = User.query.get_or_404(user_id)
+    tags = Tag.query.order_by(Tag.name).all()
     if request.method == 'POST':
+        selected_tags = request.form.getlist('tagCheckbox')
         title = request.form.get('title')
         content = request.form.get('content')
         add_new_post = Post(title=title, content=content, user_id=user.id)
         db.session.add(add_new_post)
         db.session.commit()
+        # add tags if any where selected
+        for tag_value in selected_tags:
+            tag = Tag.query.filter_by(name=tag_value).first()
+            if tag:
+                post_tag = PostTag(post_id=add_new_post.id, tag_id=tag.id)
+                db.session.add(post_tag)
+        db.session.commit()
         flash('Post created successfully', 'success')
         return redirect(url_for('user_detail', user_id=user_id))
     
-    return render_template('new_post_form.html', user = user)
+    return render_template('new_post_form.html', user = user, tags=tags)
 
 # **GET */posts/[post-id] :*** Show a post. Show buttons to edit and delete the post.
 @app.route('/posts/<posts_id>')
 def post_details(posts_id):
     post = Post.query.get_or_404(posts_id)
-    return render_template('post_detail_page.html', post=post)
+    tags = post.tags
+    return render_template('post_detail_page.html', post=post, tags=tags)
 
 
 # **GET */posts/[post-id]/edit :*** Show form to edit a post, and to cancel (back to user page).
@@ -131,6 +140,7 @@ def post_details(posts_id):
 @app.route('/posts/<posts_id>/edit', methods=['GET', 'POST'])
 def edit_post(posts_id):
     post = Post.query.get_or_404(posts_id)
+    tags = Tag.query.order_by(Tag.name).all()
     if request.method == 'POST':
         title = request.form.get('title')
         content = request.form.get('content')
@@ -139,8 +149,7 @@ def edit_post(posts_id):
         db.session.commit()
         flash('Post Edited Successfully', 'success')
         return redirect(url_for('post_details', posts_id=posts_id))
-        
-    return render_template('post_edit_page.html', post=post)
+    return render_template('post_edit_page.html', post=post, tags=tags)
 
 # **POST */posts/[post-id]/delete :*** Delete the post.
 @app.route('/posts/<posts_id>/delete')
