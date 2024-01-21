@@ -1,6 +1,6 @@
 from unittest import TestCase
 from app import app, db
-from models import User
+from models import User,Tag,Post
 from dotenv import load_dotenv
 load_dotenv()
 import os
@@ -39,7 +39,16 @@ class UserModelCase(TestCase):
             self.assertEqual(user.image_url, "default.jpg")
             db.session.delete(user)
             db.session.commit()
-
+            
+class PostModelCase(TestCase):
+    """Test for Post Cases"""
+    
+class TagModelCase(TestCase):
+    """Test for Tag Cases"""
+    
+    
+    
+    
 if __name__ == "__main__":
     import unittest
     unittest.main()

@@ -1,6 +1,6 @@
 from unittest import TestCase
 from app import app, db
-from models import User
+from models import User,Tag,Post
 from dotenv import load_dotenv
 load_dotenv()
 import os
@@ -93,7 +93,15 @@ class UserFlaskCase(TestCase):
 
             self.assertEqual(resp.status_code, 200)
             self.assertNotEqual("John Doe", html)
-            
+class PostFlaskCase(TestCase):
+    """Test for Post Cases"""
+    
+    
+class TagFlaskCase(TestCase):
+    """Test for Tag Cases"""
+    
+    
+    
 if __name__ == "__main__":
     import unittest
     unittest.main()
