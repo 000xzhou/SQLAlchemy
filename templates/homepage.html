@@ -3,7 +3,7 @@ content_title %}Recent Post{% endblock %} {% block content %}
 <ul>
   {% for post in posts %}
   <li>
-    <h3>{{ post.title}}</h3>
+    <h3><a href="/posts/{{post.id}}">{{ post.title}}</a></h3>
     <p>{{ post.content}}</p>
     <p>
       By {{post.user.full_name}} on {{ post.created_at.strftime('%a, %b %d %Y,
