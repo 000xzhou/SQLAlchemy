@@ -170,7 +170,7 @@ def tag_detail(tag_id):
 # **POST */tags/new :*** Process add form, adds tag, and redirect to tag list.
 @app.route('/tags/new', methods=['GET', 'POST'])
 def new_tag():
-    return render_template('tag_form.html')
+    return render_template('new_tag_form.html')
 
 
 # **GET */tags/[tag-id]/edit :*** Show edit form for a tag.
