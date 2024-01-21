@@ -93,6 +93,11 @@ class UserFlaskCase(TestCase):
 
             self.assertEqual(resp.status_code, 200)
             self.assertNotEqual("John Doe", html)
+            
+    def test_user_delete(self):
+        with self.app.test_client() as client:
+            resp = client.get(f"/users/{self.user_id}/delete")
+            self.assertEqual(resp.status_code, 302)  
 class PostFlaskCase(TestCase):
     """Test for Post Cases"""
     @classmethod
@@ -162,14 +167,79 @@ class PostFlaskCase(TestCase):
     def test_post_delete(self):
         with self.app.test_client() as client:
             resp = client.get(f"/posts/{self.post_id}/delete")
-            html = resp.get_data(as_text=True)
-
             self.assertEqual(resp.status_code, 302)
 class TagFlaskCase(TestCase):
     """Test for Tag Cases"""
-    
-    
-    
+    @classmethod
+    def setUpClass(cls):
+        """Set up Flask application context and configuration."""
+        cls.app = app
+        cls.app.config['TESTING'] = True
+        cls.app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+        cls.app.config['SQLALCHEMY_ECHO'] = True
+        cls.client = cls.app.test_client()
+        with cls.app.app_context():
+            db.drop_all()
+            db.create_all()
+
+    @classmethod
+    def tearDownClass(cls):
+        """Clean up class-level resources."""
+        pass
+
+    def setUp(self):
+        """Add sample"""
+        with self.app.app_context():
+            Tag.query.delete()
+            # Add a sample Tag
+            tag = Tag(name= "Lucky Star")
+            db.session.add(tag)
+            db.session.commit()
+            self.tag_id = tag.id
+
+    def tearDown(self):
+        """Clean up instance-level resources."""
+        with self.app.app_context():
+            Tag.query.delete()
+            db.session.rollback()
+            
+    def test_tag_list_page(self):
+        with self.app.test_client() as client:
+            resp = client.get("/tags")
+            html = resp.get_data(as_text=True)
+
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn("Lucky Star", html) 
+            
+    def test_tag_detail_page(self):
+        with self.app.test_client() as client:
+            resp = client.get(f"/tags/{self.tag_id}")
+            html = resp.get_data(as_text=True)
+
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn("Lucky Star", html) 
+            
+    def test_new_tag_page(self):
+        with self.app.test_client() as client:
+            resp = client.post("/tags/new", data={"name": "Water"}, follow_redirects=True)
+            html = resp.get_data(as_text=True)
+
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn("Water", html)
+            
+    def test_edit_tag_page(self):
+        with self.app.test_client() as client:
+            resp = client.post(f"/tags/{self.tag_id}/edit", data={"name": "Water"}, follow_redirects=True)
+            html = resp.get_data(as_text=True)
+
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn("Water", html)
+            
+    def test_tag_delete(self):
+        with self.app.test_client() as client:
+            resp = client.get(f"/tags/{self.tag_id}/delete")
+            self.assertEqual(resp.status_code, 302)  
+            
 if __name__ == "__main__":
     import unittest
     unittest.main()
