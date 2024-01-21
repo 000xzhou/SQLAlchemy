@@ -1,7 +1,7 @@
 """Blogly application."""
 
 from flask import Flask, render_template, redirect, request, url_for, flash
-from models import db, connect_db, User, Post
+from models import db, connect_db, User, Post, Tag, PostTag
 from dotenv import load_dotenv
 load_dotenv()
 import os
@@ -158,7 +158,8 @@ def not_found_error(error):
 # **GET */tags :*** Lists all tags, with links to the tag detail page.
 @app.route('/tags')
 def list_of_tags():
-    return render_template('tags_list.html')
+    tags = Tag.query.order_by(Tag.name).all()
+    return render_template('tags_list.html', tags=tags)
 
 
 # **GET */tags/[tag-id] :*** Show detail about a tag. Have links to edit form and to delete.
