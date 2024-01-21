@@ -155,5 +155,35 @@ def delete_post(posts_id):
 def not_found_error(error):
     return render_template('404.html'), 404
 
+# **GET */tags :*** Lists all tags, with links to the tag detail page.
+@app.route('/tags')
+def list_of_tags():
+    return render_template('tags_list.html')
+
+
+# **GET */tags/[tag-id] :*** Show detail about a tag. Have links to edit form and to delete.
+@app.route('/tags/<tag_id>')
+def tag_detail(tag_id):
+    return render_template('tag_detail.html')
+
+# **GET */tags/new :*** Shows a form to add a new tag.
+# **POST */tags/new :*** Process add form, adds tag, and redirect to tag list.
+@app.route('/tags/new', methods=['GET', 'POST'])
+def new_tag():
+    return render_template('tag_form.html')
+
+
+# **GET */tags/[tag-id]/edit :*** Show edit form for a tag.
+# **POST */tags/[tag-id]/edit :*** Process edit form, edit tag, and redirects to the tags list.
+@app.route('/tags/<tag_id>/edit', methods=['GET', 'POST'])
+def edit_tag(tag_id):
+    return render_template('tag_edit_page.html')
+
+# **POST */tags/[tag-id]/delete :*** Delete a tag.
+@app.route('/tags/<tag_id>/delete')
+def tag_deleting(tag_id):
+    return redirect(url_for('homepage'))
+
+
 if __name__ == '__main__':
     app.run(debug=True)
