@@ -1,5 +1,4 @@
 <!-- base.html -->
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,6 +9,9 @@
   <body>
     <nav>
       <!-- Navigation links go here -->
+      <a href="/">Home</a>
+      <a href="/users">User List</a>
+      <a href="/tags">Tags List</a>
     </nav>
     {% with messages = get_flashed_messages() %} {% if messages %}
     <ul>

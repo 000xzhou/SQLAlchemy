@@ -41,18 +41,18 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
     # user = db.relationship('User', backref='posts')
-    posttags = db.relationship('Tags', secondary='posttags', backref='posts')
+    tags = db.relationship('Tag', secondary='posttags', backref='posts')
     
     def __repr__(self):
         s = self
         return f"<post id={s.id}, title={s.title}, content={s.content}, created_at={s.created_at}>"
 
 class Tag(db.Model):
-    __tablename__ = "Tags"
+    __tablename__ = "tags"
     
     id = db.Column(db.Integer,
                    primary_key=True)
-    name = db.Column(db.Text, nullable=False, unique=True)
+    name = db.Column(db.String(50), nullable=False, unique=True)
 class PostTag(db.Model):
     __tablename__ = "posttags"
 
