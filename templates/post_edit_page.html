@@ -17,6 +17,23 @@ content_title %}Edit Post{% endblock %} {% block content %}
     placeholder="Enter some content"
     value="{{post.content}}"
   />
+  {% for tag in tags %}
+  <input
+    type="checkbox"
+    id="tagCheckbox_{{ tag.id }}"
+    name="tagCheckbox"
+    value="{{ tag.name }}"
+    {%
+    if
+    tag
+    in
+    post.tags
+    %}checked{%
+    endif
+    %}
+  />
+  <label for="tagCheckbox_{{ tag.id }}">{{ tag.name }}</label>
+  {% endfor %}
   <a href="/users/{{post.user_id}}">Cancel</a>
   <button type="submit">Edit</button>
 </form>

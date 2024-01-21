@@ -140,15 +140,18 @@ def post_details(posts_id):
 @app.route('/posts/<posts_id>/edit', methods=['GET', 'POST'])
 def edit_post(posts_id):
     post = Post.query.get_or_404(posts_id)
-    tags = Tag.query.order_by(Tag.name).all()
     if request.method == 'POST':
-        title = request.form.get('title')
-        content = request.form.get('content')
-        post.title = title
-        post.content = content
+        # Update post
+        post.title = request.form.get('title')
+        post.content = request.form.get('content')
+        # Update tags
+        selected_tags = request.form.getlist('tagCheckbox')
+        post.tags = Tag.query.filter(Tag.name.in_(selected_tags)).all()
+        # submit update 
         db.session.commit()
         flash('Post Edited Successfully', 'success')
         return redirect(url_for('post_details', posts_id=posts_id))
+    tags = Tag.query.order_by(Tag.name).all()
     return render_template('post_edit_page.html', post=post, tags=tags)
 
 # **POST */posts/[post-id]/delete :*** Delete the post.
