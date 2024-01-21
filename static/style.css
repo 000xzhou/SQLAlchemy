@@ -1,0 +1,30 @@
+span {
+  border-radius: 10px;
+  background-color: green;
+}
+span a {
+  color: white;
+  padding: 0.25rem 0.5rem;
+}
+a {
+  text-decoration: none;
+}
+
+.button {
+  padding: 0.5rem 2rem;
+  background-color: greenyellow;
+}
+.margin-bottom {
+  margin-bottom: 1rem;
+}
+.list-style-none {
+  list-style: none;
+}
+nav a {
+  color: black;
+  font-weight: 700;
+  padding: 1rem;
+}
+a:hover {
+  color: rgb(75, 201, 75);
+}

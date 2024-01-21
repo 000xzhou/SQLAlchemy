@@ -1,11 +1,11 @@
 {% extends 'base.html' %} {% block title %}user detail{% endblock %} {% block
 content_title %}Detail page for {{user.full_name}}{% endblock %} {% block
 content %}
-<img src="{{user.image_url}}" alt="user image" />
+<img class="margin-bottom" src="{{user.image_url}}" alt="user image" />
 <div>{{userfull_name}}</div>
 <div>
-  <a href="/users/{{user.id}}/edit">Edit</a>
-  <a href="/users/{{user.id}}/delete">Delete</a>
+  <a class="button" href="/users/{{user.id}}/edit">Edit</a>
+  <a class="button" href="/users/{{user.id}}/delete">Delete</a>
 </div>
 <div>
   <h2>Posts</h2>
@@ -16,6 +16,6 @@ content %}
     </li>
     {% endfor %}
   </ul>
-  <a href="/users/{{user.id}}/posts/new">Add Post</a>
+  <a class="button" href="/users/{{user.id}}/posts/new">Add Post</a>
 </div>
 {% endblock %}

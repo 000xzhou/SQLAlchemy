@@ -34,7 +34,7 @@ content_title %}Edit Post{% endblock %} {% block content %}
   />
   <label for="tagCheckbox_{{ tag.id }}">{{ tag.name }}</label>
   {% endfor %}
-  <a href="/users/{{post.user_id}}">Cancel</a>
-  <button type="submit">Edit</button>
+  <a class="button" href="/users/{{post.user_id}}">Cancel</a>
+  <button class="button" type="submit">Edit</button>
 </form>
 {% endblock %}

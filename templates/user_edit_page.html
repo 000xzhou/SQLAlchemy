@@ -25,8 +25,8 @@ content_title %}Edit user: {{user.full_name}}{% endblock %} {% block content %}
     placeholder="Provide an image of this user"
     value="{{user.image_url}}"
   />
-  <a href="/users/{{user.id}}">Cancel</a>
-  <button type="submit">Save</button>
+  <a class="button" href="/users/{{user.id}}">Cancel</a>
+  <button class="button" type="submit">Save</button>
 </form>
 
 {% endblock %}
