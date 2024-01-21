@@ -165,6 +165,7 @@ def list_of_tags():
 # **GET */tags/[tag-id] :*** Show detail about a tag. Have links to edit form and to delete.
 @app.route('/tags/<tag_id>')
 def tag_detail(tag_id):
+    
     return render_template('tag_detail.html')
 
 # **GET */tags/new :*** Shows a form to add a new tag.
@@ -190,6 +191,10 @@ def edit_tag(tag_id):
 # **POST */tags/[tag-id]/delete :*** Delete a tag.
 @app.route('/tags/<tag_id>/delete')
 def tag_deleting(tag_id):
+    tag = Tag.query.get_or_404(tag_id)
+    db.session.delete(tag)
+    db.session.commit()
+    flash('Tag deleted successfully', 'success')
     return redirect(url_for('homepage'))
 
 
