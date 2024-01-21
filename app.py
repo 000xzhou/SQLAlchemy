@@ -186,6 +186,13 @@ def new_tag():
 # **POST */tags/[tag-id]/edit :*** Process edit form, edit tag, and redirects to the tags list.
 @app.route('/tags/<tag_id>/edit', methods=['GET', 'POST'])
 def edit_tag(tag_id):
+    tag = Tag.query.get_or_404(tag_id)
+    if request.method == 'POST':
+        name = request.form.get('name')
+        tag.name = name
+        db.session.commit()
+        flash('Tag Edited Successfully', 'success')
+        return redirect(url_for('list_of_tags'))
     return render_template('tag_edit_page.html')
 
 # **POST */tags/[tag-id]/delete :*** Delete a tag.
