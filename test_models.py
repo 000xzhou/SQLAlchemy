@@ -11,7 +11,7 @@ class UserModelCase(TestCase):
         """Set up a Flask application context and create a clean state."""
         self.app = app
         self.app.config['TESTING'] = True
-        self.app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+        self.app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL_TEST')
         self.app.config['SQLALCHEMY_ECHO'] = False
         self.client = self.app.test_client()
 
@@ -55,6 +55,7 @@ class PostModelCase(TestCase):
             db.create_all()
             User.query.delete()
             Post.query.delete()
+            db.session.commit()
             # Add a sample user
             user = User(first_name="John", last_name="Doe", image_url="image_url.jpg")
             db.session.add(user)

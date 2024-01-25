@@ -12,7 +12,7 @@ class UserFlaskCase(TestCase):
         """Set up Flask application context and configuration."""
         cls.app = app
         cls.app.config['TESTING'] = True
-        cls.app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+        cls.app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL_TEST')
         cls.app.config['SQLALCHEMY_ECHO'] = False
         cls.client = cls.app.test_client()
         with cls.app.app_context():
@@ -28,6 +28,7 @@ class UserFlaskCase(TestCase):
         """Add sample"""
         with self.app.app_context():
             User.query.delete()
+            db.session.commit()
             # Add a sample user
             user = User(first_name="John", last_name="Doe", image_url="image_url.jpg")
             db.session.add(user)
